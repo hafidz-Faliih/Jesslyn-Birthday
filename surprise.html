@@ -3,192 +3,182 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Surprise</title>
+  <title>Surat Ulang Tahun 🎉</title>
   <style>
     body {
       margin: 0;
       height: 100vh;
-      background: linear-gradient(135deg, #ff4d4d, #b30000);
       display: flex;
-      flex-direction: column;
-      justify-content: center;
       align-items: center;
-      text-align: center;
-      font-family: "Poppins", sans-serif;
+      justify-content: center;
+      background: linear-gradient(135deg, #ffcccc, #ff6666);
+      font-family: 'Poppins', sans-serif;
       overflow: hidden;
-      color: white;
-      opacity: 0;
-      animation: fadeInBody 2s ease forwards;
     }
 
-    @keyframes fadeInBody {
-      from { opacity: 0; }
-      to { opacity: 1; }
+    .container {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      transition: opacity 1s ease;
     }
 
-    h1 {
-      font-size: clamp(2rem, 6vw, 4rem);
-      margin-bottom: 10px;
-      text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
-      opacity: 0;
-      transform: translateY(30px);
-      animation: slideIn 2s ease forwards;
-      animation-delay: 0.5s;
-    }
-
-    h2 {
-      font-size: clamp(1.5rem, 5vw, 2.5rem);
-      margin-bottom: 20px;
-      opacity: 0;
-      transform: translateY(30px);
-      animation: slideIn 2s ease forwards;
-      animation-delay: 1s;
-    }
-
-    .surat {
-      background: rgba(255, 255, 255, 0.15);
-      padding: 20px;
-      border-radius: 15px;
-      max-width: 600px;
-      font-size: clamp(1rem, 4vw, 1.2rem);
-      line-height: 1.6;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      opacity: 0;
-      transform: scale(0.9);
-      animation: zoomIn 1.5s ease forwards;
-      animation-delay: 1.8s;
-    }
-
-    @keyframes slideIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes zoomIn {
-      from { opacity: 0; transform: scale(0.9); }
-      to { opacity: 1; transform: scale(1); }
-    }
-
-    /* Canvas balon */
-    #balloons {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-    }
-
-    /* Tombol play musik */
-    #playButton {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      padding: 12px 18px;
-      border: none;
-      border-radius: 25px;
-      background: #fff;
-      color: #b30000;
-      font-size: 1rem;
-      font-weight: bold;
+    .envelope {
+      width: 200px;
       cursor: pointer;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-      transition: 0.3s;
+      transition: transform 0.3s ease;
+      filter: drop-shadow(0px 4px 10px rgba(0,0,0,0.3));
+      z-index: 5;
+    }
+    .envelope:hover {
+      transform: scale(1.1);
     }
 
-    #playButton:hover {
-      background: #ffe6e6;
+    .hint {
+      font-size: 18px;
+      color: #fff;
+      font-weight: 500;
+      text-shadow: 1px 1px 3px rgba(0,0,0,0.5);
+      max-width: 200px;
+    }
+
+    .letter {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) translateY(50px);
+      width: 90%;
+      max-width: 500px;
+      padding: 20px 25px;
+      background: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 12px 25px rgba(0,0,0,0.25), inset 0 0 15px rgba(0,0,0,0.05);
+      font-size: 16px;
+      line-height: 1.6;
+      color: #333;
+      opacity: 0;
+      transition: all 1s ease;
+      overflow-wrap: break-word; /* biar teks ga keluar */
+      word-break: break-word;
+      text-align: justify;
+      z-index: 1;
+    }
+    .letter.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) translateY(0);
+      z-index: 10;
+    }
+
+    /* Judul surat */
+    .letter h1 {
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+      color: #e60000;
+      line-height: 1.3;
+      word-wrap: break-word;
+    }
+
+    /* Penutup */
+    .letter .closing {
+      font-size: 18px;
+      font-weight: bold;
+      text-align: center;
+      color: #d60000;
+      margin-top: 25px;
+      line-height: 1.3;
+    }
+
+    .balloon {
+      position: absolute;
+      bottom: -100px;
+      width: 60px;
+      height: 80px;
+      background: radial-gradient(circle at 30% 30%, #ff6666, #cc0000);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: floatUp 8s linear forwards;
+      opacity: 0;
+    }
+    .string {
+      position: absolute;
+      top: 80px;
+      left: 50%;
+      width: 2px;
+      height: 80px;
+      background: transparent;
+    }
+    .string::before {
+      content: '';
+      position: absolute;
+      width: 2px;
+      height: 100%;
+      background: black;
+      animation: wave 2s infinite ease-in-out;
+    }
+
+    @keyframes floatUp {
+      0% { transform: translateY(0); opacity: 1; }
+      80% { opacity: 1; }
+      100% { transform: translateY(-110vh); opacity: 0; }
+    }
+
+    @keyframes wave {
+      0% { transform: rotate(5deg); }
+      50% { transform: rotate(-5deg); }
+      100% { transform: rotate(5deg); }
     }
   </style>
 </head>
 <body>
-  <!-- Musik ulang tahun -->
-  <audio id="music" loop>
-    <source src="happy-birthday-piano.mp3" type="audio/mpeg">
-    Browser kamu tidak mendukung audio.
-  </audio>
-
-  <h1>Happy 17th Birthday </h1>
-  <h2>Jesslyn Michaella Ariadi</h2>
-  <div class="surat">
-    <p>SELAMAT ULANG </p>
-    <p>Semoga panjang umur, sehat salalu, selalu membahagiakan mami dan papa ya !!</p>
-    <p>  Semoga makin bertambah nya umur, kamu semakin mawas diri, selalu berbuat baik tentu nya, dan lebih baik lagi untuk kedepannya. Dan aku sekali lagi mau ucapin beribu ribu terimakasih, udah mau nemenin aku seelama 4 bulan terakhir, banyak suka dan duka nya ya ges ya. Maaf atas masalah kemarin dan seluruh apa yang aku perbuat. itu jadi bahan evaluasi aku buat ke depan nya. dan maap belom bisa ngasih hadiah</p>
-    <p>Bukan gabisa sih, namun menyusul next nanti yh, nunggu kabar saja, nanti ak kasi.</p>
-    <p>POKOKNYA SELAMAT ULANG TAHUN, WISH U ALL THE BEST,</p>
+  <div class="container" id="container">
+    <img src="envelope.png" class="envelope" id="envelope" alt="Amplop">
+    <div class="hint"> 👈🏻 coba kamu klik surat di sebelah kiri.</div>
   </div>
-  
 
-  <!-- Tombol Play Musik -->
-  <button id="playButton">▶ Play Music</button>
+  <div class="letter" id="letter">
+    <h1>Selamat Ulang Tahun<br>Jesslyn Michaella</h1>
 
-  <!-- Canvas untuk animasi balon -->
-  <canvas id="balloons"></canvas>
+    <p>Semoga di umur 17 tahun ini, makin imut, makin produktif, dan tentunya panjang umur serta sehat selalu. Semoga selalu membanggakan mami dan papa.</p>
+
+    <p>Di umur ke 17 ini, aku mau berterima kasih karena sudah pernah menjadi partner aku (walaupun cuma beberapa bulan sih 😅). Jujur, sangat menyenangkan bisa kenal sama kamu. Banyak hal yang aku pelajarin dari kamu, mulai dari cara ngatur ekonomi,sharing ilmu sama aku, atau bantu apapun di saat aku susah. Bener-bener terbantu banget. Terima kasih untuk segala cerita, canda tawa, baik suka maupun duka. Semua itu benar-benar berkesan buat 4 bulan terakhir ini.</p>
+
+    <p>OIYA, untuk kado InsyaAllah menyusul yah, ditunggu aja nanti. Maaf kalau kadonya kurang apa gimana ntar, xixi 😆.</p>
+
+    <div class="closing">Pokoknya SELAMAT ULANG TAHUN JESS!!! 🎂🥳</div>
+  </div>
+
+  <audio id="music" src="lagu.mp3"></audio>
 
   <script>
-    const canvas = document.getElementById("balloons");
-    const ctx = canvas.getContext("2d");
-    let balloons = [];
-
-    function resizeCanvas() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
-
-    class Balloon {
-      constructor() {
-        this.x = Math.random() * canvas.width;
-        this.y = canvas.height + Math.random() * 100;
-        this.size = 20 + Math.random() * 30;
-        this.speed = 1 + Math.random() * 2;
-        this.color = ["#ff6666", "#ffcccc", "#ff3333", "#ff9999"][Math.floor(Math.random() * 4)];
-        this.drift = (Math.random() - 0.5) * 2;
-      }
-      update() {
-        this.y -= this.speed;
-        this.x += this.drift * 0.5;
-        if (this.y < -this.size) {
-          this.y = canvas.height + this.size;
-          this.x = Math.random() * canvas.width;
-        }
-      }
-      draw() {
-        ctx.beginPath();
-        ctx.ellipse(this.x, this.y, this.size * 0.7, this.size, 0, 0, Math.PI * 2);
-        ctx.fillStyle = this.color;
-        ctx.fill();
-        ctx.strokeStyle = "#fff";
-        ctx.stroke();
-      }
-    }
-
-    function initBalloons(count) {
-      for (let i = 0; i < count; i++) {
-        balloons.push(new Balloon());
-      }
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      for (let balloon of balloons) {
-        balloon.update();
-        balloon.draw();
-      }
-      requestAnimationFrame(animate);
-    }
-
-    initBalloons(30);
-    animate();
-
-    // === Musik Play Button ===
+    const envelope = document.getElementById("envelope");
     const music = document.getElementById("music");
-    const playButton = document.getElementById("playButton");
+    const letter = document.getElementById("letter");
+    const container = document.getElementById("container");
 
-    playButton.addEventListener("click", () => {
+    function createBalloon() {
+      const balloon = document.createElement("div");
+      balloon.classList.add("balloon");
+
+      const string = document.createElement("div");
+      string.classList.add("string");
+      balloon.appendChild(string);
+
+      balloon.style.left = Math.random() * 100 + "vw";
+      balloon.style.animationDuration = (6 + Math.random() * 4) + "s";
+
+      document.body.appendChild(balloon);
+
+      setTimeout(() => {
+        balloon.remove();
+      }, 10000);
+    }
+
+    envelope.addEventListener("click", () => {
       music.play();
-      playButton.style.display = "none"; // sembunyikan tombol setelah klik
+      letter.classList.add("show");
+      container.style.opacity = "0";
+      setInterval(createBalloon, 800);
     });
   </script>
 </body>
